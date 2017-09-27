@@ -14,7 +14,7 @@ export default {
 
 <style lang="css" scoped>
 li.artist{
-  display: block;
-  margin: 10px 0;
+  display: inline-table;
+  margin: 10px 10px;
 }
 </style>

@@ -2,6 +2,11 @@
   <div id="app">
     <img src="./assets/logo.png">
     <h1>VueMusic</h1>
+    <select v-model="selectedCountry" class="" name="">
+      <option v-for="country in countries" :value="country.value">
+        {{ country.name }}
+      </option>
+    </select>
     <ul>
       <artist v-for="artist in artists" :artist="artist" :key="artist.mbid"></artist>
     </ul>
@@ -16,18 +21,35 @@ export default {
   name: 'app',
   data () {
     return {
-      artists: []
+      artists: [],
+      countries: [
+        {name: 'Chile', value: 'chile'},
+        {name: 'España', value: 'spain'},
+        {name: 'Colombia', value: 'colombia'},
+        {name: 'Mexico', value: 'mexico'},
+      ],
+      selectedCountry: 'chile'
     }
   },
   components: {
     Artist: Artist
   },
-  mounted: function () {
-    const self = this
-    getArtists()
-      .then(function (artists) {
-        self.artists = artists
-      })
+  methods:{
+    refreshArtist(){
+      const self = this
+      getArtists(this.selectedCountry)
+        .then(function (artists) {
+          self.artists = artists
+        })
+    }
+  },
+  mounted() {
+    this.refreshArtist()
+  },
+  watch: {
+    selectedCountry() {
+      this.refreshArtist()
+    }
   }
 }
 </script>
